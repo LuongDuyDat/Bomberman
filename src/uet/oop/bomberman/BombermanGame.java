@@ -7,10 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.gamemap.Map;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.ArrayList;
@@ -18,14 +16,33 @@ import java.util.List;
 
 public class BombermanGame extends Application {
     
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
-    
+    public static final int WIDTH = 31;
+    public static final int HEIGHT = 13;
+
     private GraphicsContext gc;
     private Canvas canvas;
+    private List<Entity> allEntities = new ArrayList<>();
+    private List<Entity> allStillObjects = new ArrayList<>();
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
+    private Map map = new Map();
+    private int _level;
 
+    public void addAllEntities(Entity e) {
+        allEntities.add(e);
+    }
+
+    public void addAllStillObjects(Entity e) {
+        allEntities.add(e);
+    }
+
+    public int get_level() {
+        return _level;
+    }
+
+    public void set_level(int _level) {
+        this._level = _level;
+    }
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -64,14 +81,17 @@ public class BombermanGame extends Application {
     }
 
     public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
+        ArrayList<String> m = map.generateMapByLevel(1, 40, 60);
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 Entity object;
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                }
-                else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                char x = m.get(i).charAt(j);
+                if (x == '#') {
+                    object = new Wall(j, i, Sprite.wall.getFxImage());
+                } else if (x == ' ' || x == 'p') {
+                    object = new Grass(j, i, Sprite.grass.getFxImage());
+                } else {
+                    object = new Brick(j, i, Sprite.brick.getFxImage());
                 }
                 stillObjects.add(object);
             }
