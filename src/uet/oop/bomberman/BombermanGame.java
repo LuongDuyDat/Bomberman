@@ -8,9 +8,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.enemy.*;
 import uet.oop.bomberman.gamemap.Map;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +23,19 @@ public class BombermanGame extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
-    private Map map = new Map();
+    public static Map map = new Map();
     private int _level;
-    private List<Entity> allEntities = new ArrayList<>();
-    private List<Entity> allStillObjects = new ArrayList<>();
+    public List<Entity> allEntities = new ArrayList<>();
+    public List<Entity> allStillObjects = new ArrayList<>();
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
+    public static List<Enemy> enemies = new ArrayList<>();
+    public static List<Entity> grasses = new ArrayList<>();
     public static Entity [][] ObjectMap = new Entity[HEIGHT][WIDTH];
     public static int [][] BombMap = new int[HEIGHT][WIDTH];
     public static Bomber bomberman;
     public static int n_flame = 2;
+    public static int point = 0;
 
     public void addAllEntities(Entity e) {
         allEntities.add(e);
@@ -162,31 +167,71 @@ public class BombermanGame extends Application {
 
     public void createMap() {
         ArrayList<String> m = map.generateMapByLevel(1, 40, 60);
+        for (int i = 0; i < m.size(); i++) {
+            System.out.println(m.get(i));
+        }
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                Entity object;
+                Entity object = null;
                 char x = m.get(i).charAt(j);
                 if (x == '#') {
                     object = new Wall(j, i, Sprite.wall.getFxImage());
-                } else if (x == ' ' || x == 'p') {
-                    object = new Grass(j, i, Sprite.grass.getFxImage());
+                    stillObjects.add(object);
                 } else {
-                    object = new Brick(j, i, Sprite.brick.getFxImage());
+                    grasses.add(new Grass(j, i, Sprite.grass.getFxImage()));
+                    if (x == ' ' || x == 'p') {
+                        object = new Grass(j, i, Sprite.grass.getFxImage());
+                    } else if (x == '*') {
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        stillObjects.add(object);
+                    } else if (x == '1') {
+                        object = new Baloon(j, i, Sprite.balloom_left1.getFxImage());
+                        enemies.add((Enemy) object);
+                    } else if (x == '2') {
+                        object = new Oneal(j, i, Sprite.oneal_left1.getFxImage());
+                        enemies.add((Enemy) object);
+                    } else if (x == '3') {
+                        object = new Kondoria(j, i, Sprite.kondoria_left1.getFxImage());
+                        enemies.add((Enemy) object);
+                    } else {
+                        object = new Doll(j, i, Sprite.doll_left1.getFxImage());
+                        enemies.add((Enemy) object);
+                    }
                 }
                 ObjectMap[i][j] = object;
-                stillObjects.add(object);
             }
         }
     }
 
     public void update() {
-        entities.forEach(Entity::update);
+        entities.forEach(Entity::update); enemies.forEach(Enemy::update);
+        handleEnemiesCollisions();
+    }
+
+    public void handleEnemiesCollisions() {
+        /**
+         * Enemy with stillobject
+         */
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy e = enemies.get(i);
+            Rectangle r = e.getBounds();
+            for (int j = 0; j < stillObjects.size(); j++) {
+                Entity s = stillObjects.get(j);
+                Rectangle r1 = s.getBounds();
+                if (r.intersects(r1) && e.getLayer() < s.getLayer()) {
+                    e.notMove();
+                }
+            }
+            e.move();
+        }
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        grasses.forEach(g -> g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+        enemies.forEach(g-> g.render(gc));
     }
 
     public void testBrick(int y, int x) {

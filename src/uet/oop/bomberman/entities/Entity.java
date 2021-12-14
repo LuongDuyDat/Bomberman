@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
+
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
@@ -15,6 +17,18 @@ public abstract class Entity {
     protected int y;
 
     protected Image img;
+    protected int animated = 0;
+    protected boolean alive;
+    protected int layer;
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
+
     public int getX() {
         return x;
     }
@@ -30,6 +44,9 @@ public abstract class Entity {
         this.img = img;
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+    }
     public void render(GraphicsContext gc) {
         gc.drawImage(img, x, y);
     }

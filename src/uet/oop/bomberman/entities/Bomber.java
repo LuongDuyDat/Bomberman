@@ -22,7 +22,7 @@ public class Bomber extends Entity {
         super(x, y, img);
     }
 
-    public int v = 75;
+    public int v = 50;
 
     public void moveRight() {
         Timeline t = new Timeline();

@@ -12,6 +12,7 @@ public class Brick extends Entity{
 
     public Brick(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
+        setLayer(3);
     }
 
     public void exploded() {
