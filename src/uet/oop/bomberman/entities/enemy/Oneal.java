@@ -15,13 +15,13 @@ public class Oneal extends Enemy{
 
     protected final int _width = 31, _height = 13;
     private int direct;
-    private int staight = 16;
+    private int staight = 32;
 
     public Oneal(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         alive = true;
         setLayer(1);
-        setSpeed(2);
+        setSpeed(1);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class Oneal extends Enemy{
     }
 
     public void goStraight() {
-        if (staight == 16) {
+        if (staight == 32) {
             direct = generateDirect();
             staight = 1;
         } else {

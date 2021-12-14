@@ -14,11 +14,11 @@ import java.util.Queue;
 public class Doll extends Enemy{
     protected final int _width = 31, _height = 13;
     private int direct;
-    private int staight = 8;
+    private int staight = 16;
 
     public Doll(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        setSpeed(4);
+        setSpeed(2);
         setLayer(1);
         alive = true;
     }
@@ -157,7 +157,7 @@ public class Doll extends Enemy{
     }
 
     public void goStraight() {
-        if (staight == 8) {
+        if (staight == 16) {
             direct = generateDirect();
             staight = 1;
         } else {
