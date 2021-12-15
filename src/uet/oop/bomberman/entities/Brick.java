@@ -8,7 +8,7 @@ import javafx.util.Duration;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Brick extends Entity{
+public class Brick extends stillEntity{
 
     public Brick(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
