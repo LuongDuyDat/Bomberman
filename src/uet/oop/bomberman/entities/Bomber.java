@@ -335,7 +335,7 @@ public class Bomber extends Entity {
                 (ActionEvent event) -> {
                     img = Sprite.player_right.getFxImage();
                     BombermanGame.bomberman.setX(1 * Sprite.SCALED_SIZE);
-                    BombermanGame.bomberman.setY(1 * Sprite.SCALED_SIZE);
+                    BombermanGame.bomberman.setY(3 * Sprite.SCALED_SIZE);
 
                 }
         ));

@@ -129,6 +129,10 @@ public class Sprite {
 	public static Sprite bomb = new Sprite(DEFAULT_SIZE, 0, 3, SpriteSheet.tiles, 15, 15);
 	public static Sprite bomb_1 = new Sprite(DEFAULT_SIZE, 1, 3, SpriteSheet.tiles, 13, 15);
 	public static Sprite bomb_2 = new Sprite(DEFAULT_SIZE, 2, 3, SpriteSheet.tiles, 12, 14);
+	public static SpriteSheet lifeSheet = new SpriteSheet("/sprites/life.png", 16);
+	public static Sprite life = new Sprite(DEFAULT_SIZE, 0, 0, lifeSheet, 16, 16);
+	public static SpriteSheet powerup_lifeSheet = new SpriteSheet("/sprites/powerup_life.png", 16);
+	public static Sprite powerup_life = new Sprite(DEFAULT_SIZE, 0, 0, powerup_lifeSheet, 16, 16);
 	
 	/*
 	|--------------------------------------------------------------------------

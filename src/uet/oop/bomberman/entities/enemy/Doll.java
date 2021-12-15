@@ -93,9 +93,9 @@ public class Doll extends Enemy{
         if (!BombermanGame.bomberman.isAlive()) {
             return (int)(Math.random() * 4);
         }
-        int[][] trace = new int[_height][_width];
-        int[][] d = new int[_height][_width];
-        for (int i = 0; i < _height; i++) {
+        int[][] trace = new int[_height + 2][_width];
+        int[][] d = new int[_height + 2][_width];
+        for (int i = 0; i < _height + 2; i++) {
             for (int j = 0; j < _width; j++) {
                 trace[i][j] = 0;
                 d[i][j] = 500;
@@ -116,12 +116,12 @@ public class Doll extends Enemy{
             if (i == BombermanGame.bomberman.getY() / Sprite.SCALED_SIZE && j == BombermanGame.bomberman.getX() / Sprite.SCALED_SIZE) {
                 break;
             }
-            if (i > 0 && d[i - 1][j] > d[i][j] + 1 && !(map[i - 1][j] instanceof Wall) && !(map[i - 1][j] instanceof Brick) && (bomMap[i - 1][j] == 0)) {
+            if (i > 2 && d[i - 1][j] > d[i][j] + 1 && !(map[i - 1][j] instanceof Wall) && !(map[i - 1][j] instanceof Brick) && (bomMap[i - 1][j] == 0)) {
                 q.add((i - 1) * _width + j);
                 d[i - 1][j] = d[i][j] + 1;
                 trace[i - 1][j] = i * _width + j;
             }
-            if (i + 1 < _height && d[i + 1][j] > d[i][j] + 1 && !(map[i + 1][j] instanceof Wall) && !(map[i + 1][j] instanceof Brick) && (bomMap[i + 1][j] == 0)) {
+            if (i + 1 < _height + 2 && d[i + 1][j] > d[i][j] + 1 && !(map[i + 1][j] instanceof Wall) && !(map[i + 1][j] instanceof Brick) && (bomMap[i + 1][j] == 0)) {
                 q.add((i + 1) * _width + j);
                 d[i + 1][j] = d[i][j] + 1;
                 trace[i + 1][j] = i * _width + j;

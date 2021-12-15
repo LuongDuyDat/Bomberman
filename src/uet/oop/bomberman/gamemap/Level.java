@@ -1,7 +1,7 @@
 package uet.oop.bomberman.gamemap;
 
 public class Level {
-    private final int[][] enemy = {{4, 0, 0, 0}, {3, 3, 0, 0}, {4, 4, 3, 0}, {3, 3, 3, 3}};
+    private final int[][] enemy = {{1, 1, 0, 0}, {3, 3, 0, 0}, {4, 4, 3, 0}, {3, 3, 3, 3}};
     private final int[] item = {2, 2, 2, 1};
 
     public int[][] getEnemy() {
