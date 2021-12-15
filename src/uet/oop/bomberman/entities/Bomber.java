@@ -351,8 +351,8 @@ public class Bomber extends Entity {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int) Math.round((double) x / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE,
-                (int) Math.round((double) y / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        return new Rectangle((int) Math.round((double) x / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE / 2,
+                (int) Math.round((double) y / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE + Sprite.SCALED_SIZE / 2, Sprite.SCALED_SIZE / 2, Sprite.SCALED_SIZE / 2);
     }
 
     @Override
