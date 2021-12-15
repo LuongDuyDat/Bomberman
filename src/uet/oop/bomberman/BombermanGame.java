@@ -2,10 +2,19 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.layout.*;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.enemy.*;
@@ -26,7 +35,7 @@ public class BombermanGame extends Application {
     private GraphicsContext gc;
     private Canvas canvas;
     public static Map map = new Map();
-    private int _level;
+    public  int _level = 1;
     public List<Entity> allEntities = new ArrayList<>();
     public List<Entity> allStillObjects = new ArrayList<>();
     public static List<Entity> entities = new ArrayList<>();
@@ -39,6 +48,10 @@ public class BombermanGame extends Application {
     public static Bomber bomberman;
     public static int n_flame = 2;
     public static int point = 0;
+
+    private Button start;
+    private Label exit;
+    private Label playAgain;
 
     public void addAllEntities(Entity e) {
         allEntities.add(e);
@@ -74,7 +87,7 @@ public class BombermanGame extends Application {
         Scene scene = new Scene(root);
 
         // Them scene vao stage
-        stage.setScene(scene);
+        stage.setScene(gameOver("GAME OVER"));
         stage.show();
 
         AnimationTimer timer = new AnimationTimer() {
@@ -223,7 +236,8 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        entities.forEach(Entity::update); enemies.forEach(Enemy::update);
+        entities.forEach(Entity::update);
+        enemies.forEach(Enemy::update);
         items.forEach(Item::update);
         handleEnemiesCollisions();
     }
@@ -255,6 +269,64 @@ public class BombermanGame extends Application {
         enemies.forEach(g-> g.render(gc));
     }
 
+    private Scene startGame() {
+        Image Start = new Image("images/start.png");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                Start,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT
+        );
+        Background background = new Background(backgroundImage);
+        Button start = new Button("START");
+        start.setPrefSize(150, 65);
+        start.setFont(new Font(30));
+        start.setLayoutX(465);
+        start.setLayoutY(340);
+        start.setBlendMode(BlendMode.MULTIPLY);
+        AnchorPane game = new AnchorPane(start);
+        game.setBackground(background);
+        return new Scene(game, Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * (HEIGHT));
+    }
+    private Label label(String str, double x, double y, double size) {
+        Label lb = new Label(str);
+        lb.setLayoutX(x);
+        lb.setLayoutY(y);
+        lb.setTextFill(Color.WHITE);
+        lb.setAlignment(Pos.CENTER);
+        lb.setFont(new Font(size));
+        return lb;
+    }
+    private Scene loadMessage() {
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        Label lb = label("LEVEL " + _level, 390, 160, 60);
+        lb.setTextFill(Color.BLUE);
+        AnchorPane anchorPane = new AnchorPane(lb);
+        anchorPane.setBackground(background);
+        return new Scene(anchorPane, WIDTH * Sprite.SCALED_SIZE, (HEIGHT + 2) * Sprite.SCALED_SIZE);
+    }
+    private Scene gameOver(String str) {
+        BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+
+        Label yourScore = label("Your Score : " + point, 370, 90, 30);
+        yourScore.setTextFill(Color.WHITE);
+
+        Label lb = label(str, 310, 150, 60);
+        if (str == "GAME OVER") {
+            lb.setTextFill(Color.RED);
+        } else {
+            lb = label(str, 360, 150, 60);
+            lb.setTextFill(Color.GOLD);
+        }
+        exit = label("EXIT", WIDTH * Sprite.SCALED_SIZE / 2 + 60, HEIGHT * Sprite.SCALED_SIZE / 2 + 50, 25);
+        playAgain = label("PLAY AGAIN", WIDTH * Sprite.SCALED_SIZE / 2 - 150, HEIGHT * Sprite.SCALED_SIZE / 2 + 50, 25);
+        AnchorPane close = new AnchorPane(lb, exit, playAgain, yourScore);
+        close.setBackground(background);
+        return new Scene(close, WIDTH * Sprite.SCALED_SIZE, (HEIGHT + 2) * Sprite.SCALED_SIZE);
+    }
     public void testBrick(int y, int x) {
         if (ObjectMap[y][x] instanceof Brick) {
             Brick b = (Brick) ObjectMap[y][x];
