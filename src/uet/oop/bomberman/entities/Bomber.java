@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
@@ -313,6 +314,7 @@ public class Bomber extends Entity {
                 Duration.millis(200),
                 (ActionEvent event) -> {
                     img = Sprite.player_dead1.getFxImage();
+                    Sound.play("endgame3");
 
                 }
         ));

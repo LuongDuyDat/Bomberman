@@ -14,12 +14,16 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sun.applet.Main;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.enemy.*;
 import uet.oop.bomberman.entities.items.*;
 import uet.oop.bomberman.gamemap.Map;
 import uet.oop.bomberman.graphics.Sprite;
-
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +61,7 @@ public class BombermanGame extends Application {
     public int gameTime = 300;
     public static final List<Entity> life = new ArrayList<>();
     public static final List<Entity> bomb = new ArrayList<>();
-    public boolean reload = true;
+    public Clip clip;
 
     public void addAllEntities(Entity e) {
         allEntities.add(e);
@@ -82,6 +86,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
 
+        stage.setTitle("Bomberman");
         stage.setScene(startGame());
         start.setOnMouseClicked(event -> {
             run = true;
@@ -141,6 +146,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
         stage.show();
+        play("soundtrack");
         /*createMap();
 
         */
@@ -189,8 +195,10 @@ public class BombermanGame extends Application {
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i) instanceof Portal) {
                     Rectangle r2 = items.get(i).getBounds();
-                    if (r1.intersects(r2))
+                    if (r1.intersects(r2)) {
+                        Sound.play("CRYST_UP");
                         return true;
+                    }
                 }
             }
         }
@@ -248,6 +256,7 @@ public class BombermanGame extends Application {
                 break;
                 case SPACE: {
                     if (n_bomb > 0) {
+                        Sound.play("BOM_SET");
                         n_bomb--;
                         Bomb bomb = new Bomb(x, y, Sprite.bomb_2.getFxImage());
                         stillObjects.add(bomb);
@@ -400,6 +409,7 @@ public class BombermanGame extends Application {
                 Rectangle ene = e.getBounds();
                 if (r.intersects(ene)) {
                     e.setAlive(false);
+                    Sound.play("AA126_11");
                 }
             }
         }
@@ -428,14 +438,17 @@ public class BombermanGame extends Application {
                     item.setAlive(false);
                     if (item instanceof BombItem) {
                         n_bomb++;
+                        Sound.play("Item");
                         createUpperPane_bomb();
                     }
                     if (item instanceof FramItem) {
                         n_flame++;
+                        Sound.play("Item");
                     }
                     if (item instanceof SpeedItem) {
                         if (bomberman.getV() > 20) {
                             bomberman.v -= 10;
+                            Sound.play("Item");
                         }
                     }
                 }
@@ -513,8 +526,8 @@ public class BombermanGame extends Application {
         start.setTextFill(Color.BLACK);
         start.setPrefSize(150,  65);
         start.setFont(new Font(30));
-        start.setLayoutX(465);
-        start.setLayoutY(360);
+        start.setLayoutX(500);
+        start.setLayoutY(380);
         start.setOnMouseEntered(mouseEvent -> {
             start.setTextFill(Color.GRAY);
         });
@@ -569,5 +582,23 @@ public class BombermanGame extends Application {
             Brick b = (Brick) ObjectMap[y][x];
             b.exploded();
         }
+    }
+
+    public void play(String sound) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            Main.class.getResourceAsStream("/sound/" + sound + ".wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception e) {
+                    System.out.println("Loi am thanh");
+                    System.err.println(e.getMessage());
+                }
+            }
+        }).start();
+
     }
 }

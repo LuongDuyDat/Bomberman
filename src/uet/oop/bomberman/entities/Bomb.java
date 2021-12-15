@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
@@ -107,6 +108,7 @@ public class Bomb extends Entity {
                 (ActionEvent event) -> {
                     img = Sprite.bomb_exploded.getFxImage();
                     BombermanGame.n_bomb++;
+                    Sound.play("BOM_11_M");
                 }
         ));
         t.getKeyFrames().add(new KeyFrame(
