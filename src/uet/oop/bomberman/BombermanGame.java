@@ -146,7 +146,7 @@ public class BombermanGame extends Application {
         };
         timer.start();
         stage.show();
-        play("soundtrack");
+        //play("soundtrack");
         /*createMap();
 
         */
@@ -309,7 +309,7 @@ public class BombermanGame extends Application {
 
     public void createMap() {
         gameTime = 200 * 100;
-        if (_level > 1) {
+        if (_level == 1) {
             point = 0;
             n_bomb = 1;
             lives = 3;
@@ -356,6 +356,10 @@ public class BombermanGame extends Application {
                         object = new Brick(j, i, Sprite.brick.getFxImage());
                         stillObjects.add(object);
                         items.add(new FramItem(j, i, Sprite.powerup_flames.getFxImage()));
+                    } else if (x == 'l') {
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        stillObjects.add(object);
+                        items.add(new LiveItem(j, i, Sprite.powerup_life.getFxImage()));
                     } else {
                         object = new Brick(j, i, Sprite.brick.getFxImage());
                         stillObjects.add(object);
@@ -407,7 +411,7 @@ public class BombermanGame extends Application {
 
             for (Enemy e: enemies) {
                 Rectangle ene = e.getBounds();
-                if (r.intersects(ene)) {
+                if (r.intersects(ene) && e.isAlive()) {
                     e.setAlive(false);
                     Sound.play("AA126_11");
                 }
@@ -450,6 +454,11 @@ public class BombermanGame extends Application {
                             bomberman.v -= 10;
                             Sound.play("Item");
                         }
+                    }
+                    if (item instanceof LiveItem) {
+                        lives++;
+                        Sound.play("Item");
+                        createUpperPane_life();
                     }
                 }
             }

@@ -20,10 +20,11 @@ public class Map {
         int _speedItem = mapItems[0];
         int _bombItem = mapItems[1];
         int _frameItem = mapItems[2];
-        int _portal = mapItems[3];
+        int _liveItem = mapItems[3];
+        int _portal = mapItems[4];
         System.out.println(_kondo);
         int total = (_width - 2) * (_height - 2) - 3;
-        int _grass = total - _brick - _wall - _ballon - _oneal - _kondo - _doll - _speedItem - _bombItem - _frameItem - _portal;
+        int _grass = total - _brick - _wall - _ballon - _oneal - _kondo - _doll - _speedItem - _bombItem - _frameItem - _liveItem - _portal;
         ArrayList<String> map = new ArrayList<>();
         while (true) {
             int brick = _brick;
@@ -37,6 +38,7 @@ public class Map {
             int speedItem = _speedItem;
             int bombItem = _bombItem;
             int frameItem = _frameItem;
+            int liveItem = _liveItem;
             int portal = _portal;
             for (int i = 0; i < _height; i++) {
                 StringBuilder sb = new StringBuilder();
@@ -91,6 +93,11 @@ public class Map {
                             sb.append("f");
                             _frameItem--;
                             total--;
+                        } else if (r < _grass + _brick + _wall + _ballon + _oneal + _kondo + _doll
+                                + _speedItem + _bombItem + _frameItem + _liveItem) {
+                            sb.append("l");
+                            _liveItem--;
+                            total--;
                         } else {
                             sb.append("x");
                             _portal--;
@@ -115,6 +122,7 @@ public class Map {
             _bombItem = bombItem;
             _speedItem = speedItem;
             _frameItem = frameItem;
+            _liveItem = liveItem;
             _portal = portal;
         }
         return map;
