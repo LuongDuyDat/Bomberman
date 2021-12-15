@@ -45,7 +45,6 @@ public class Brick extends Entity{
                 (ActionEvent event) -> {
                     BombermanGame.stillObjects.remove(this);
                     Grass grass = new Grass(x/ Sprite.SCALED_SIZE, y/Sprite.SCALED_SIZE, Sprite.grass.getFxImage());
-                    BombermanGame.stillObjects.add(grass);
                     BombermanGame.ObjectMap[y/Sprite.SCALED_SIZE][x/Sprite.SCALED_SIZE] = grass;
                 }
         ));

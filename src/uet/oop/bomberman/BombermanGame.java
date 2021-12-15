@@ -9,6 +9,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.enemy.*;
+import uet.oop.bomberman.entities.items.Item;
+import uet.oop.bomberman.entities.items.SpeedItem;
 import uet.oop.bomberman.gamemap.Map;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -31,6 +33,7 @@ public class BombermanGame extends Application {
     public static List<Entity> stillObjects = new ArrayList<>();
     public static List<Enemy> enemies = new ArrayList<>();
     public static List<Entity> grasses = new ArrayList<>();
+    public static List<Item> items = new ArrayList<>();
     public static Entity [][] ObjectMap = new Entity[HEIGHT][WIDTH];
     public static int [][] BombMap = new int[HEIGHT][WIDTH];
     public static Bomber bomberman;
@@ -193,9 +196,25 @@ public class BombermanGame extends Application {
                     } else if (x == '3') {
                         object = new Kondoria(j, i, Sprite.kondoria_left1.getFxImage());
                         enemies.add((Enemy) object);
-                    } else {
+                    } else if (x == '4') {
                         object = new Doll(j, i, Sprite.doll_left1.getFxImage());
                         enemies.add((Enemy) object);
+                    } else if (x == 's') {
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        stillObjects.add(object);
+                        items.add(new SpeedItem(j, i, Sprite.powerup_speed.getFxImage()));
+                    } else if (x == 'b') {
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        stillObjects.add(object);
+                        items.add(new SpeedItem(j, i, Sprite.powerup_bombs.getFxImage()));
+                    } else if (x == 'f') {
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        stillObjects.add(object);
+                        items.add(new SpeedItem(j, i, Sprite.powerup_flames.getFxImage()));
+                    } else {
+                        object = new Brick(j, i, Sprite.brick.getFxImage());
+                        stillObjects.add(object);
+                        items.add(new SpeedItem(j, i, Sprite.portal.getFxImage()));
                     }
                 }
                 ObjectMap[i][j] = object;
@@ -205,6 +224,7 @@ public class BombermanGame extends Application {
 
     public void update() {
         entities.forEach(Entity::update); enemies.forEach(Enemy::update);
+        items.forEach(Item::update);
         handleEnemiesCollisions();
     }
 
@@ -229,6 +249,7 @@ public class BombermanGame extends Application {
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grasses.forEach(g -> g.render(gc));
+        items.forEach(g->g.render(gc));
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
         enemies.forEach(g-> g.render(gc));
