@@ -138,26 +138,38 @@ public class BombermanGame extends Application {
                         BombMap[y][x] = 1;
                         bomb.TimeStart = System.currentTimeMillis();
                         bomb.explosion();
+                        boolean left = true;
+                        boolean right = true;
+                        boolean up = true;
+                        boolean down = true;
                         for (int i = 0;i < n_flame - 1; i++) {
-                            if (!(ObjectMap[y][x-1-i] instanceof Wall)) {
+                            if (!(ObjectMap[y][x-1-i] instanceof Wall) && left) {
                                 Flame flame_left = new Flame(x - 1 - i, y, null);
                                 flame_left.left();
                                 testBrick(y, x-1-i);
+                            } else {
+                                left = false;
                             }
-                            if (!(ObjectMap[y][x+1+i] instanceof Wall)) {
+                            if (!(ObjectMap[y][x+1+i] instanceof Wall) && right) {
                                 Flame flame_right = new Flame(x + 1 + i, y, null);
                                 flame_right.right();
                                 testBrick(y, x+1+i);
+                            } else {
+                                right = false;
                             }
-                            if (!(ObjectMap[y-1-i][x] instanceof Wall)) {
+                            if (!(ObjectMap[y-1-i][x] instanceof Wall) && up) {
                                 Flame flame_up = new Flame(x, y - 1 - i, null);
                                 flame_up.up();
                                 testBrick(y-1-i, x);
+                            } else {
+                                up = false;
                             }
-                            if (!(ObjectMap[y+1+i][x] instanceof Wall)) {
+                            if (!(ObjectMap[y+1+i][x] instanceof Wall) && down) {
                                 Flame flame_down = new Flame(x, y + 1 + i, null);
                                 flame_down.down();
                                 testBrick(y+1+i, x);
+                            } else {
+                                down = false;
                             }
                         }
                     }
