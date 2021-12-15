@@ -90,6 +90,9 @@ public class Doll extends Enemy{
     }
 
     public int generateDirect() {
+        if (!BombermanGame.bomberman.isAlive()) {
+            return (int)(Math.random() * 4);
+        }
         int[][] trace = new int[_height][_width];
         int[][] d = new int[_height][_width];
         for (int i = 0; i < _height; i++) {

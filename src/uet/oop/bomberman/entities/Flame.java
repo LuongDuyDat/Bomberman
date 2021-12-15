@@ -14,6 +14,7 @@ public class Flame extends Entity {
     private int v;
     public Flame(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
+        setLayer(0);
     }
 
     public void left() {
@@ -30,6 +31,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(3800),
                 (ActionEvent event) -> {
+                    BombermanGame.flames.add(this);
                     img = Sprite.explosion_horizontal_left_last.getFxImage();
                 }
         ));
@@ -48,7 +50,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(5000),
                 (ActionEvent event) -> {
-                    BombermanGame.stillObjects.remove(this);
+                    BombermanGame.flames.remove(this);
                 }
         ));
         t.play();
@@ -68,6 +70,7 @@ public class Flame extends Entity {
             t.getKeyFrames().add(new KeyFrame(
                     Duration.millis(3800),
                     (ActionEvent event) -> {
+                        BombermanGame.flames.add(this);
                         img = Sprite.explosion_horizontal_right_last.getFxImage();
                     }
             ));
@@ -86,7 +89,7 @@ public class Flame extends Entity {
             t.getKeyFrames().add(new KeyFrame(
                     Duration.millis(5000),
                     (ActionEvent event) -> {
-                        BombermanGame.stillObjects.remove(this);
+                        BombermanGame.flames.remove(this);
                     }
             ));
         }
@@ -106,6 +109,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(3800),
                 (ActionEvent event) -> {
+                    BombermanGame.flames.add(this);
                     img = Sprite.explosion_vertical_top_last.getFxImage();
                 }
         ));
@@ -124,7 +128,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(5000),
                 (ActionEvent event) -> {
-                    BombermanGame.stillObjects.remove(this);
+                    BombermanGame.flames.remove(this);
                 }
         ));
         t.play();
@@ -143,6 +147,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(3800),
                 (ActionEvent event) -> {
+                    BombermanGame.flames.add(this);
                     img = Sprite.explosion_vertical_down_last.getFxImage();
                 }
         ));
@@ -161,7 +166,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(5000),
                 (ActionEvent event) -> {
-                    BombermanGame.stillObjects.remove(this);
+                    BombermanGame.flames.remove(this);
                 }
         ));
         t.play();
@@ -191,7 +196,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(5000),
                 (ActionEvent event) -> {
-                    BombermanGame.stillObjects.remove(this);
+                    BombermanGame.flames.remove(this);
                 }
         ));
         t.play();
@@ -221,7 +226,7 @@ public class Flame extends Entity {
         t.getKeyFrames().add(new KeyFrame(
                 Duration.millis(5000),
                 (ActionEvent event) -> {
-                    BombermanGame.stillObjects.remove(this);
+                    BombermanGame.flames.remove(this);
                 }
         ));
         t.play();

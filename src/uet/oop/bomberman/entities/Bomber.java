@@ -15,14 +15,25 @@ import javafx.util.Duration;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.sql.Time;
 
 public class Bomber extends Entity {
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
+        alive = true;
     }
 
+
     public int v = 50;
+
+    public int getV() {
+        return v;
+    }
+
+    public void setV(int v) {
+        this.v = v;
+    }
 
     public void moveRight() {
         Timeline t = new Timeline();
@@ -299,7 +310,7 @@ public class Bomber extends Entity {
         t.setCycleCount(1);
 
         t.getKeyFrames().add(new KeyFrame(
-                Duration.millis(400),
+                Duration.millis(200),
                 (ActionEvent event) -> {
                     img = Sprite.player_dead1.getFxImage();
 
@@ -307,28 +318,41 @@ public class Bomber extends Entity {
         ));
 
         t.getKeyFrames().add(new KeyFrame(
-                Duration.millis(1000),
+                Duration.millis(400),
                 (ActionEvent event) -> {
                     img = Sprite.player_dead2.getFxImage();
                 }
         ));
 
         t.getKeyFrames().add(new KeyFrame(
-                Duration.millis(1500),
+                Duration.millis(600),
                 (ActionEvent event) -> {
                     img = Sprite.player_dead3.getFxImage();
                 }
         ));
         t.getKeyFrames().add(new KeyFrame(
-                Duration.millis(1800),
+                Duration.millis(800),
                 (ActionEvent event) -> {
-                    //BombermanGame.finish = true;
-                    //BombermanGame.entities.remove(this);
-                    //System.exit(0);
+                    img = Sprite.player_right.getFxImage();
+                    BombermanGame.bomberman.setX(1 * Sprite.SCALED_SIZE);
+                    BombermanGame.bomberman.setY(1 * Sprite.SCALED_SIZE);
+
+                }
+        ));
+
+        t.getKeyFrames().add(new KeyFrame(
+                Duration.millis(5000),
+                (ActionEvent event) -> {
+                    BombermanGame.bomberman.setAlive(true);
                 }
         ));
         t.play();
+    }
 
+    @Override
+    public Rectangle getBounds() {
+        return new Rectangle((int) Math.round((double) x / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE,
+                (int) Math.round((double) y / Sprite.SCALED_SIZE) * Sprite.SCALED_SIZE, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
     }
 
     @Override

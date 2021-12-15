@@ -20,6 +20,7 @@ public class Bomb extends Entity {
 
     public Bomb(int x, int y, Image img) {
         super(x, y, img);
+        setLayer(5);
     }
 
     public void explosion() {
@@ -105,6 +106,7 @@ public class Bomb extends Entity {
                 Duration.millis(3800),
                 (ActionEvent event) -> {
                     img = Sprite.bomb_exploded.getFxImage();
+                    BombermanGame.n_bomb++;
                 }
         ));
         t.getKeyFrames().add(new KeyFrame(

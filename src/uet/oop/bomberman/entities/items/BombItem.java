@@ -12,6 +12,7 @@ public class BombItem extends Item{
     @Override
     public void update() {
         if (!alive) {
+            System.out.println(1);
             BombermanGame.items.remove(this);
         }
     }
