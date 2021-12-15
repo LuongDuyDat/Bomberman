@@ -100,7 +100,10 @@ public class BombermanGame extends Application {
                 case RIGHT: {
                     if(ObjectMap[y][x+1] instanceof Wall||ObjectMap[y][x+1] instanceof Brick || BombMap[y][x+1]==1) {
                         bomberman.moveRight1();
-                    } else if (ObjectMap[y][x+1] instanceof Grass && x1 % 32 == 0 && y1 % 32 == 0 && BombMap[y][x+1]!=1) {
+                    } else if ((ObjectMap[y][x+1] instanceof Grass)
+                            && x1 % 32 == 0 && y1 % 32 == 0 && BombMap[y][x+1]!=1) {
+                        bomberman.moveRight();
+                    } else {
                         bomberman.moveRight();
                     }
                 }
@@ -110,13 +113,17 @@ public class BombermanGame extends Application {
                         bomberman.moveLeft1();
                     } else if (ObjectMap[y][x-1] instanceof Grass && x1 % 32 == 0 && y1 % 32 == 0 && BombMap[y][x-1]!=1) {
                         bomberman.moveLeft();
+                    } else {
+                        bomberman.moveLeft();
                     }
                 }
                 break;
                 case DOWN: {
-                    if(ObjectMap[y+1][x] instanceof Wall || ObjectMap[y+1][x] instanceof Bomb || BombMap[y+1][x]==1) {
+                    if(ObjectMap[y+1][x] instanceof Wall || ObjectMap[y+1][x] instanceof Brick || BombMap[y+1][x]==1) {
                         bomberman.moveDown1();
                     } else if ((ObjectMap[y+1][x] instanceof Grass) && y1 % 32 == 0&& x1 % 32 == 0 && BombMap[y+1][x]!=1) {
+                        bomberman.moveDown();
+                    } else {
                         bomberman.moveDown();
                     }
                 }
@@ -126,12 +133,15 @@ public class BombermanGame extends Application {
                         bomberman.moveUp1();
                     } else if (ObjectMap[y-1][x] instanceof Grass && x1 % 32 == 0 && y1 % 32 == 0 && BombMap[y-1][x]!=1) {
                         bomberman.moveUp();
+                    } else {
+                        bomberman.moveUp();
                     }
                 }
                 break;
                 case SPACE: {
                     Bomb bomb = new Bomb(x, y, Sprite.bomb_2.getFxImage());
                     stillObjects.add(bomb);
+                    BombMap[y][x] = 1;
                     bomb.TimeStart = System.currentTimeMillis();
                     bomb.explosion();
                     for (int i = 0;i < n_flame - 1; i++) {
@@ -140,6 +150,7 @@ public class BombermanGame extends Application {
                             stillObjects.add(flame_left);
                             flame_left.left();
                             testBrick(y, x-1-i);
+
                         }
                         if (!(ObjectMap[y][x+1+i] instanceof Wall)) {
                             Flame flame_right = new Flame(x + 1 + i, y, null);
@@ -152,6 +163,7 @@ public class BombermanGame extends Application {
                             stillObjects.add(flame_up);
                             flame_up.up();
                             testBrick(y-1-i, x);
+
                         }
                         if (!(ObjectMap[y+1+i][x] instanceof Wall)) {
                             Flame flame_down = new Flame(x, y + 1 + i, null);
